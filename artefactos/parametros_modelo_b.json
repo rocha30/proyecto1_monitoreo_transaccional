@@ -1,0 +1,58 @@
+{
+  "arquitectura": "gru",
+  "longitud_secuencia": 10,
+  "hidden_units": 64,
+  "columnas_secuencia": [
+    "categoria_idx",
+    "canal_idx",
+    "monto",
+    "hora_del_dia",
+    "dia_semana",
+    "tiempo_desde_ultima_seg"
+  ],
+  "canal_a_idx": {
+    "presencial": 1,
+    "online": 2,
+    "cajero": 3
+  },
+  "mu_numericas_secuencia": [
+    5.03970193862915,
+    11.516425132751465,
+    2.983002185821533,
+    11.670172691345215
+  ],
+  "sigma_numericas_secuencia": [
+    0.8055506348609924,
+    6.952406883239746,
+    1.9922934770584106,
+    1.46377432346344
+  ],
+  "umbral_elegido": 0.4,
+  "corte_train_val": "2026-05-11 09:17:57.395517765",
+  "corte_val_test": "2026-06-07 09:53:18.071335478",
+  "dias_val": 27,
+  "dias_test": 27,
+  "costo_fn": 4200.0,
+  "costo_fp": 180.0,
+  "metricas_test": {
+    "auc_pr": 0.9238542274493582,
+    "precision": 0.4833574529667149,
+    "exhaustividad": 0.939521800281294,
+    "f1": 0.6383182035355949,
+    "umbral": 0.4,
+    "n_positivos_predichos": 1382,
+    "n_positivos_reales": 711
+  },
+  "comparacion_arquitectura_val_auc_pr": {
+    "gru": 0.9071966936605613,
+    "lstm": 0.9047333914878114
+  },
+  "apuesta_c": {
+    "auc_pr_val_a": 0.8355421856948293,
+    "auc_pr_val_b": 0.9263418792374023,
+    "auc_pr_val_c_hibrido": 0.900297690464479,
+    "margen_exigido": 0.01,
+    "veredicto": "NO \u00daTIL"
+  },
+  "seed_generador": 42
+}

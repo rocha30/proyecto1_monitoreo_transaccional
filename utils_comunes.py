@@ -6,7 +6,7 @@ comparación entre ambos es válida por construcción, no por copiar y pegar
 código y confiar en que quedó igual.
 
 Uso: desde cualquiera de los notebooks del proyecto (viven en la raíz),
-    from utils_comunes import particionar_temporal, evaluar_modelo, resumen_economico
+    from utils_comunes import construir_features, particionar_temporal, evaluar_modelo, resumen_economico
 """
 
 from __future__ import annotations
@@ -20,6 +20,45 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
 )
+
+
+def construir_features(transacciones):
+    """Agrega, a cada transacción, variables causales sobre el historial *previo* del cliente.
+
+    Vive aquí (y no solo en `linea_base.ipynb`) para que el notebook del modelo
+    secuencial parta del mismo `con_features` que usó el Modelo A — mismas columnas,
+    mismas ventanas causales, sin reimplementarlas ni arriesgar que diverjan.
+    """
+    df = transacciones.sort_values(["id_cliente", "marca_tiempo"]).reset_index(drop=True)
+    df["fecha"] = df["marca_tiempo"].dt.date
+
+    con_indice_tiempo = df.set_index("marca_tiempo")
+    por_cliente = con_indice_tiempo.groupby("id_cliente", group_keys=False)["monto"]
+    monto_promedio_24h = por_cliente.apply(lambda s: s.rolling("24h", closed="left").mean())
+    n_transacciones_1h = por_cliente.apply(lambda s: s.rolling("1h", closed="left").count())
+    n_transacciones_24h = por_cliente.apply(lambda s: s.rolling("24h", closed="left").count())
+
+    # monto máximo del día calendario, hasta ANTES de la transacción actual
+    maximo_acumulado_incl = df.groupby(["id_cliente", "fecha"])["monto"].cummax()
+    monto_maximo_dia = maximo_acumulado_incl.groupby([df["id_cliente"], df["fecha"]]).shift(1)
+
+    # comercios distintos vistos en los 7 días previos
+    diversidad_comercios_7d = con_indice_tiempo.groupby("id_cliente", group_keys=False)["categoria_comercio"].apply(
+        lambda s: s.rolling("7D").apply(lambda x: len(set(x[:-1])) if len(x) > 1 else 0, raw=True))
+
+    tiempo_desde_ultima = df.groupby("id_cliente")["marca_tiempo"].diff().dt.total_seconds()
+
+    df["monto_promedio_24h"] = monto_promedio_24h.reset_index(drop=True).fillna(df["monto"])
+    df["n_transacciones_1h"] = n_transacciones_1h.reset_index(drop=True).fillna(0)
+    df["n_transacciones_24h"] = n_transacciones_24h.reset_index(drop=True).fillna(0)
+    df["monto_maximo_dia"] = monto_maximo_dia.reset_index(drop=True).fillna(df["monto"])
+    df["diversidad_comercios_7d"] = diversidad_comercios_7d.reset_index(drop=True).fillna(0)
+    df["tiempo_desde_ultima_seg"] = tiempo_desde_ultima.fillna(7 * 86400)  # sin historia -> "hace mucho"
+    df["ratio_monto_vs_promedio24h"] = df["monto"] / (df["monto_promedio_24h"] + 1.0)
+    df["hora_del_dia"] = df["marca_tiempo"].dt.hour
+    df["dia_semana"] = df["marca_tiempo"].dt.dayofweek
+
+    return df.drop(columns=["fecha"])
 
 
 def particionar_temporal(df, col_tiempo="marca_tiempo", frac_train=0.70, frac_val=0.15):

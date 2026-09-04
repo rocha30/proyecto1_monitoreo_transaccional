@@ -16,7 +16,7 @@
     "canal"
   ],
   "target": "es_fraude",
-  "umbral_elegido": 0.04,
+  "umbral_elegido": 0.05,
   "corte_train_val": "2026-05-11 09:17:57.395517765",
   "corte_val_test": "2026-06-07 09:53:18.071335478",
   "dias_test": 27,
@@ -24,21 +24,21 @@
   "costo_fn": 4200.0,
   "costo_fp": 180.0,
   "metricas_test": {
-    "auc_pr": 0.856890431324456,
-    "precision": 0.409683426443203,
-    "exhaustividad": 0.9282700421940928,
-    "f1": 0.5684754521963824,
-    "umbral": 0.04,
-    "n_positivos_predichos": 1611,
+    "auc_pr": 0.847422812909717,
+    "precision": 0.44083840432724813,
+    "exhaustividad": 0.9170182841068917,
+    "f1": 0.5954337899543379,
+    "umbral": 0.05,
+    "n_positivos_predichos": 1479,
     "n_positivos_reales": 711
   },
   "resumen_economico_test": {
-    "umbral": 0.04,
-    "fn": 51,
-    "fp": 951,
-    "costo_mensual_con_modelo_A": 428200.0,
+    "umbral": 0.05,
+    "fn": 59,
+    "fp": 827,
+    "costo_mensual_con_modelo_A": 440733.33,
     "costo_mensual_sin_modelo": 3318000.0,
-    "ahorro_mensual_modelo_A": 2889800.0
+    "ahorro_mensual_modelo_A": 2877266.67
   },
   "seed_generador": 42
 }

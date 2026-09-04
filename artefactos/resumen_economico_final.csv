@@ -1,0 +1,5 @@
+,umbral,fn,fp,costo_mensual,ahorro_mensual_vs_no_interceptar_nada
+Modelo A (agregados),0.05,59.0,827.0,440733.33,2877266.67
+Modelo B (secuencia),0.4,43.0,714.0,343466.67,2974533.33
+"Modelo C (híbrido, no recomendado)",0.68,50.0,590.0,351333.33,2966666.67
+Sistema actual (referencia: no interceptar nada),,,,3318000.0,0.0
