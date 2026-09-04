@@ -1,0 +1,44 @@
+{
+  "features_numericas": [
+    "monto",
+    "monto_promedio_24h",
+    "n_transacciones_1h",
+    "n_transacciones_24h",
+    "monto_maximo_dia",
+    "diversidad_comercios_7d",
+    "tiempo_desde_ultima_seg",
+    "ratio_monto_vs_promedio24h",
+    "hora_del_dia",
+    "dia_semana"
+  ],
+  "features_categoricas": [
+    "categoria_comercio",
+    "canal"
+  ],
+  "target": "es_fraude",
+  "umbral_elegido": 0.04,
+  "corte_train_val": "2026-05-11 09:17:57.395517765",
+  "corte_val_test": "2026-06-07 09:53:18.071335478",
+  "dias_test": 27,
+  "dias_val": 27,
+  "costo_fn": 4200.0,
+  "costo_fp": 180.0,
+  "metricas_test": {
+    "auc_pr": 0.856890431324456,
+    "precision": 0.409683426443203,
+    "exhaustividad": 0.9282700421940928,
+    "f1": 0.5684754521963824,
+    "umbral": 0.04,
+    "n_positivos_predichos": 1611,
+    "n_positivos_reales": 711
+  },
+  "resumen_economico_test": {
+    "umbral": 0.04,
+    "fn": 51,
+    "fp": 951,
+    "costo_mensual_con_modelo_A": 428200.0,
+    "costo_mensual_sin_modelo": 3318000.0,
+    "ahorro_mensual_modelo_A": 2889800.0
+  },
+  "seed_generador": 42
+}
